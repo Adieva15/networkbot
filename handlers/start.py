@@ -8,7 +8,8 @@ router = Router()
 async def start(message:Message):
     text =("Hello! Я нейросетевой бот.\n"
         "Мои команды:\n"
-        "/sentiment\n"
         "/start\n"
-        "/help\n")
+        "/help\n"
+        "/sentiment\n"
+        "/history\n")
     await message.answer(text)
