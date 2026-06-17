@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Нейросетевой помощник</title>
+    <style>
+        body { font-family: Arial; margin:40; }
+        .function-box { border: 1px solid #ccc; padding: 15px; margin-bottom:20px; border-radius: 8px; }
+        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;}
+        .error {color: red;}
+    </style>
+</head>
+<body>
+    <h1>Нейросетевой помощник</h1>
+    <p>Выберите функцию и введите данные</p>
+
+    {% if error %}
+        <div class="error"{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="function-box">
+            <h3>Текстовые функции</h3>
+            <select name="action">
+                <option value="sentiment">Анализ тональности</option>
+            </select>
+            <br><br>
+            <textarea name="text" rows="4" cols="50" placeholder="Введите текст..."></textarea>
+            <br>
+            <input type="submit" value="Отправить">
+        </div>
+    </form>
+
+    {% if result_text %}
+        <div class="result">
+            <h3>Результат</h3>
+            <p>{{ result_text }}</p>
+        </div>
+    {% endif %}
+</body>
+</html>
