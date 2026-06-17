@@ -18,7 +18,6 @@ async def cmd_sentiment(message:Message, state: FSMContext):
 
 @router.message(MemeState.waiting_text, F.text)
 async def analyze(msg:Message, state: FSMContext):
-
     result = await sentiment_analysis(msg.text)
     await msg.answer(f"Тональность {result}")
-    add_record(msg.from_user.id, "sentiment", msg.text[:100], result)
+    add_record(msg.from_user.id, "sentiment", msg.text[:500], result)

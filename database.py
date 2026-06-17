@@ -12,7 +12,7 @@ def init_db():
                 command TEXT,
                 input TEXT,
                 result TEXT,
-                timestamp TEXT
+                timestamp TEXT)
                 ''')
     conn.commit()
     conn.close()
