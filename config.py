@@ -1,5 +1,8 @@
-import os
+
 from dotenv import load_dotenv
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+import os
 
 load_dotenv()
 
@@ -9,6 +12,7 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 
 
 SENTIMENT_API = "https://huggingface.co/tabularisai/multilingual-sentiment-analysis"
+model_name = "tabularisai/multilingual-sentiment-analysis"
 # OBJECT_DETECTION_API = "https://api-inference.huggingface.co/models/facebook/detr-resnet-50"
 # TEXT_GEN_API = "https://api-inference.huggingface.co/models/gpt2"
 # SUMMARIZATION_API = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
