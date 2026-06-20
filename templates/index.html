@@ -15,7 +15,7 @@
     <p>Выберите функцию и введите данные</p>
 
     {% if error %}
-        <div class="error"{{ error }}</div>
+        <div class="error"{{ error }}></div>
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
@@ -23,6 +23,7 @@
             <h3>Текстовые функции</h3>
             <select name="action">
                 <option value="sentiment">Анализ тональности</option>
+                <option value="generate">Генерация текста</option>
             </select>
             <br><br>
             <textarea name="text" rows="4" cols="50" placeholder="Введите текст..."></textarea>

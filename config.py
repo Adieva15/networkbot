@@ -12,4 +12,5 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 SENTIMENT_API = "https://huggingface.co/tabularisai/multilingual-sentiment-analysis"
 model_name = "tabularisai/multilingual-sentiment-analysis"
 
+model_gt='gpt2'
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}

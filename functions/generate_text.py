@@ -5,16 +5,14 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 tokenizer = GPT2Tokenizer.from_pretrained(model_gt)
 model = GPT2LMHeadModel.from_pretrained(model_gt)
 
-
 # text = "Replace me by any text you'd like."
-# encoded_input = tokenizer(text, return_tensors='tf')
-# output = model(encoded_input)
 
 def generate_text(prompt:str, max_length:int=100)->str:
     """
     Генерирует продолжение текста на основе заданного промпта.
     """
     try:
+        tokenizer.pad_token=tokenizer.eos_token
         inputs = tokenizer(prompt,
                            return_tensors="pt", # PyTorch тензоры
                            truncation=True,
@@ -28,7 +26,7 @@ def generate_text(prompt:str, max_length:int=100)->str:
                 num_return_sequences=1,
                 pad_token_id=tokenizer.eos_token_id,
                 do_sample=True,     # включаем вероятностную выборку
-                temperature=0.7     # креативность (0 – детерминированно, 1 – случайно)
+                temperature=0.7,    # креативность (0 – детерминированно, 1 – случайно)
             )
         generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 

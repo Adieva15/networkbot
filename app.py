@@ -2,7 +2,8 @@ import os
 from flask import Flask, request, render_template, send_file, jsonify
 import io
 from functions import (
-    sentiment_analysis
+    sentiment_analysis,
+    generate_text,
 )
 
 
@@ -26,7 +27,12 @@ def index():
             else:
                 error = "Введите текст"
 
-
+        elif action =="generate":
+            prompt = request.form.get('text', '')
+            if prompt:
+                result_text=generate_text(prompt)
+            else:
+                error = 'Введите промпт'
     return render_template('index.html', result_text=result_text, error=error)
 
 if __name__=='__main__':
