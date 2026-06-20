@@ -4,7 +4,6 @@ import io
 from functions import (
     sentiment_analysis
 )
-import os
 
 
 app = Flask(__name__)
