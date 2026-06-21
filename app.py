@@ -6,7 +6,10 @@ from functions import (
     generate_text,
     summarize_text
 )
+import gradio as gr
 
+def greet(name):
+    return "Hello "+name+"!!"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -45,4 +48,5 @@ def index():
     return render_template('index.html', result_text=result_text, error=error)
 
 if __name__=='__main__':
+    demo.launch()
     app.run(debug=True, host='0.0.0.0', port=5000)
