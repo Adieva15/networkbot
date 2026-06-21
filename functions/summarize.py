@@ -1,4 +1,4 @@
-from config import SUMMARIZE_API, model_sum
+from config import model_sum
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 import torch
 
@@ -23,7 +23,7 @@ def summarize_text(text:str)->str:
                 max_length=200,
                 min_length=30,
                 no_repeat_ngram_size=4, #Запрещает повторение 4-грамм — текст становится более связным
-                num_beans=4,       # поиск по лучам для улучшения качества
+                num_beams=4,       # поиск по лучам для улучшения качества
                 early_stopping=True #Останавливает генерацию, когда все лучи достигли конца
             )[0]
 
