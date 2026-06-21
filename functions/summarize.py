@@ -10,7 +10,7 @@ model=T5ForConditionalGeneration.from_pretrained(model_sum)
 def summarize_text(text:str)->str:
     try:
         tokenizer.pad_token=tokenizer.eos_token
-        input_text = "summarize: " + text
+        input_text = "summarize: " + text #Обязательный префикс для задачи суммаризации в T5
         input_ids=tokenizer([input_text],
                          max_length=600,
                          add_special_tokens=True,
@@ -22,9 +22,9 @@ def summarize_text(text:str)->str:
                 input_ids=input_ids,
                 max_length=200,
                 min_length=30,
-                no_repeat_ngram_size=4,
+                no_repeat_ngram_size=4, #Запрещает повторение 4-грамм — текст становится более связным
                 num_beans=4,       # поиск по лучам для улучшения качества
-                early_stopping=True
+                early_stopping=True #Останавливает генерацию, когда все лучи достигли конца
             )[0]
 
         summary = tokenizer.decode(output_ids, skip_special_tokens=True)
