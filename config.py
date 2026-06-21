@@ -13,4 +13,8 @@ SENTIMENT_API = "https://huggingface.co/tabularisai/multilingual-sentiment-analy
 model_name = "tabularisai/multilingual-sentiment-analysis"
 
 model_gt='gpt2'
+
+SUMMARIZE_API=''
+model_sum='IlyaGusev/rut5_base_sum_gazeta'
+
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}
