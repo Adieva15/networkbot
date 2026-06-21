@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, send_file, jsonify
 import io
 from functions import (
     sentiment_analysis,
-    generate_text,
+    generate_text, summarize_text,
 )
 
 
@@ -33,6 +33,13 @@ def index():
                 result_text=generate_text(prompt)
             else:
                 error = 'Введите промпт'
+
+        elif action=="summarize":
+            text=request.form.get('text', '')
+            if text:
+                result_text=summarize_text(text)
+            else:
+                error = "Введите текст для пересказа"
     return render_template('index.html', result_text=result_text, error=error)
 
 if __name__=='__main__':
