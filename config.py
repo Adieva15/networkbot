@@ -1,4 +1,3 @@
-
 from dotenv import load_dotenv
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
@@ -17,4 +16,8 @@ model_gt='gpt2'
 SUMMARIZE_API=''
 model_sum='IlyaGusev/rut5_base_sum_gazeta'
 # model_sum='t5-small'
+
+IMAGE_COLORIZATION=''
+
+
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}
