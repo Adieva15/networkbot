@@ -4,7 +4,9 @@ transformers
 dotenv
 opencv-python
 pathlib
-tempfile
 numpy
-modelscope
+pillow
+modelscope==1.12.0
 huggingface_hub
+gradio
+datasets==2.14.7

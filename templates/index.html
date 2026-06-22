@@ -15,28 +15,72 @@
     <p>Выберите функцию и введите данные</p>
 
     {% if error %}
-        <div class="error"{{ error }}></div>
+    <div class="error" style="color:red; background: #ffe6e6; padding: 10px; border-radius: 5px;">
+        {{ error }}
+    </div>
     {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="mainForm">
         <div class="function-box">
             <h3>Текстовые функции</h3>
-            <select name="action">
+            <select name="action" id="actionSelect">
                 <option value="sentiment">Анализ тональности</option>
                 <option value="generate">Генерация текста</option>
                 <option value="summarize">Пересказ текста</option>
+                <option value="colorize">Раскрасить ч/б</option>
             </select>
             <br><br>
-            <textarea name="text" rows="4" cols="50" placeholder="Введите текст..."></textarea>
+            <textarea name="text" id="textInput" rows="4" cols="50" placeholder="Введите текст..."></textarea>
             <br>
+            <input  type="file" name="image" accept="image/*" id="imageInput">
             <input type="submit" value="Отправить">
+
+<!--            <h3>Фото-функция</h3>-->
+<!--            <select name="action">-->
+<!--                <option value="colorize" selected>Раскрасить ч/б</option>-->
+<!--            </select>-->
+<!--            <br><br>-->
+<!--            <input  type="file" name="image" accept="image/*" required>-->
+<!--            <br>-->
+<!--            <input type="submit" value="Отправить">-->
         </div>
     </form>
+
+    <script>
+        const form = document.getElementById('mainForm');
+        const actionSelect = document.getElementById('actionSelect');
+        const textInput = document.getElementById('textInput');
+        const imageInput = document.getElementById('imageInput');
+
+        form.addEventListener('submit', function(e) {
+            const action = actionSelect.value;
+            if (['sentiment', 'generate', 'summarize'].includes(action)) {
+                if (!textInput.value.trim()) {
+                    e.preventDefault();
+                    alert('Введите текст');
+                }
+            } else if (['colorize',].includes(action)) {
+                if (!imageInput.files.length) {
+                    e.preventDefault();
+                    alert('Выберите файл');
+                }
+            }
+        });
+    </script>
 
     {% if result_text %}
         <div class="result">
             <h3>Результат</h3>
             <p>{{ result_text }}</p>
+        </div>
+    {% endif %}
+
+    {% if result_image %}
+        <div class="result">
+            <h3>Результат</h3>
+            <img src="{{ result_image }}" style="max-width: 500px">
+            <br>
+            <a href="{{ result_image }}" download="result.jpg" class="download-btn">Download</a>
         </div>
     {% endif %}
 </body>
