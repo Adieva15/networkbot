@@ -2,3 +2,9 @@ flask
 torch
 transformers
 dotenv
+opencv-python
+pathlib
+tempfile
+numpy
+modelscope
+huggingface_hub

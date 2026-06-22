@@ -17,7 +17,8 @@ SUMMARIZE_API=''
 model_sum='IlyaGusev/rut5_base_sum_gazeta'
 # model_sum='t5-small'
 
-IMAGE_COLORIZATION=''
 
+
+EMOTION_API = "https://api-inference.huggingface.co/models/harsh3474/face-emotion-recognition"
 
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}
