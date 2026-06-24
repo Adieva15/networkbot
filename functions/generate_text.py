@@ -17,7 +17,7 @@ def generate_text(prompt:str, max_length:int=100)->str:
                            return_tensors="pt", # PyTorch тензоры
                            truncation=True,
                            padding=True,
-                           max_length=512)
+                           max_length=1024)
         with torch.no_grad():
             outputs=model.generate(
                 input_ids=inputs.input_ids,
@@ -26,7 +26,7 @@ def generate_text(prompt:str, max_length:int=100)->str:
                 num_return_sequences=1,
                 pad_token_id=tokenizer.eos_token_id,
                 do_sample=True,     # включаем вероятностную выборку
-                temperature=0.7,    # креативность (0 – детерминированно, 1 – случайно)
+                temperature=0.6,    # креативность (0 – детерминированно, 1 – случайно)
             )
         generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
