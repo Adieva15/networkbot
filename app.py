@@ -1,5 +1,5 @@
 import os
-# from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, send_file, jsonify
 import io
 import requests
 import base64
@@ -10,10 +10,8 @@ from functions import (
     summarize_text,
     # colorize_photo
 )
-import gradio as gr
 
-def greet(name):
-    return "Hello "+name+"!!"
+
 
 app = Flask(__name__)
 # app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -23,7 +21,6 @@ RESULTS_FOLDER = 'static/results'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULTS_FOLDER, exist_ok=True)
 
-demo = gr.Interface(fn=greet, inputs="text", outputs="text")
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
@@ -95,5 +92,5 @@ def index():
     return render_template('index.html', result_text=result_text, error=error)
 
 if __name__=='__main__':
-    demo.launch(share=True)
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    app.run(debug=True, host='0.0.0.0', port=7860)
