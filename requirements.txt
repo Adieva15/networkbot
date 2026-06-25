@@ -3,7 +3,7 @@ torch
 transformers
 python-dotenv
 opencv-python
-gunicorn #синхр
+gunicorn #синх
 pillow
 requests
 

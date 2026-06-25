@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 # 5. Копируем весь код приложения
 COPY --chown=user . /app
 
-# 6. Порт 7860 — стандартный для Hugging Face Spaces[reference:2][reference:3]
+# 6. Порт 7860
 EXPOSE 7860
 
 # 7. Команда запуска

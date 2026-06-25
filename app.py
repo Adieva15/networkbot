@@ -14,7 +14,7 @@ from functions import (
 
 
 app = Flask(__name__)
-# app.config['UPLOAD_FOLDER'] = 'uploads'
+
 
 UPLOAD_FOLDER = 'uploads'
 RESULTS_FOLDER = 'static/results'
