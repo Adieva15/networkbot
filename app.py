@@ -55,7 +55,7 @@ def index():
             pass
 
         elif action =="stats":
-            text=request.get('text','')
+            text=request.form.get('text','')
             if text:
                 result_text = text_stats(text)
             else:
