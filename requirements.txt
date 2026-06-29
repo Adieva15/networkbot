@@ -1,7 +1,7 @@
 flask
 torch
 transformers
-
+tiktoken
 opencv-python
 gunicorn #синх
 pillow
