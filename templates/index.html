@@ -249,7 +249,7 @@
 <body>
 <div class="container">
     <h1>НейроЛингвист</h1>
-    <div class="subhead">текстовые функции + чат с ИИ</div>
+    <div class="subhead">Текстовые функции + чат с ИИ</div>
 
     {% if error %}
     <div class="error">{{ error }}</div>
@@ -263,6 +263,7 @@
                 <option value="generate">Генерация</option>
                 <option value="summarize">Пересказ</option>
                 <option value="chat">Чат</option>
+                <option value="stats">Статистика текста</option>
             </select>
             <br>
 
@@ -291,7 +292,6 @@
 </div>
 
 <script>
-    // Тот же JS, что был ранее (без изменений)
     const initialHistory = {{ chat_history|tojson|safe }};
     const chatContainer = document.getElementById('chat-container');
     const textArea = document.getElementById('text-input-area');

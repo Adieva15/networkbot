@@ -8,7 +8,8 @@ from functions import (
     sentiment_analysis,
     generate_text,
     summarize_text,
-    chat_with_agent
+    chat_with_agent,
+    text_stats
 )
 
 
@@ -23,7 +24,6 @@ app.secret_key = os.getenv("SECRET_KEY", os.urandom(24))
 @app.route('/', methods = ['GET', 'POST'])
 def index():
     result_text = None
-    result_image = None
     error = None
     chat_history = session.get('chat_history', [])
 
@@ -53,6 +53,14 @@ def index():
 
         elif action=="chat":
             pass
+
+        elif action =="stats":
+            text=request.get('text','')
+            if text:
+                result_text = text_stats(text)
+            else:
+                error="Введите текст"
+
 
     return render_template('index.html',
                            result_text=result_text,
