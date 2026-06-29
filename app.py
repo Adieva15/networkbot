@@ -9,7 +9,8 @@ from functions import (
     generate_text,
     summarize_text,
     chat_with_agent,
-    text_stats
+    text_stats,
+    paraphrase_text
 )
 
 
@@ -61,6 +62,12 @@ def index():
             else:
                 error="Введите текст"
 
+        elif action =="paraphrase":
+            text=request.form.get('text','')
+            if text:
+                result_text = paraphrase_text(text)
+            else:
+                error="Введите текст"
 
     return render_template('index.html',
                            result_text=result_text,
