@@ -18,13 +18,14 @@ UPLOAD_FOLDER = 'uploads'
 RESULTS_FOLDER = 'static/results'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULTS_FOLDER, exist_ok=True)
-
+app.secret_key = os.getenv("SECRET_KEY", os.urandom(24))
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
     result_text = None
     result_image = None
     error = None
+    chat_history = session.get('chat_history', [])
 
     if request.method == 'POST':
         action = request.form.get('action')
@@ -53,7 +54,10 @@ def index():
         elif action=="chat":
             pass
 
-    return render_template('index.html', result_text=result_text, error=error)
+    return render_template('index.html',
+                           result_text=result_text,
+                           error=error,
+                           chat_history=chat_history)
 
 @app.route('/chat', methods=['POST'])
 def chat_endpoint():
