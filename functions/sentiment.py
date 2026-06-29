@@ -1,5 +1,5 @@
 
-from networkbot.networkbot.config import model_name
+from ..config import model_name
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 

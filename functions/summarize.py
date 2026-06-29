@@ -1,4 +1,4 @@
-from networkbot.networkbot.config import model_sum
+from ..config import model_sum
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 import torch
 
