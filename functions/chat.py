@@ -27,25 +27,19 @@ def chat_with_agent(history, user_message):
     # Добавляем сообщение пользователя в историю
     history.append({"role":"user","content":user_message})
     try:
-        print("Чат запущен. Введите 'exit' для выхода.\n")
-        while True:
-            user_input = input("Вы: ")
-            if user_input.lower() == "exit":
-                break
-
-            # Отправляем всю историю в модель
-            completion = client.chat.completions.create(
-                model=model_chat,
-                messages=history
-            )
-
-            # Получаем ответ ассистента
-            assistant_message = completion.choices[0].message
-            reply = assistant_message.content
-
-            # Добавляем ответ ассистента в историю
-            history.append({"role": "assistant", "content": reply})
-            return reply, history
+        # Отправляем всю историю в модель
+        completion = client.chat.completions.create(
+            model=model_chat,
+            messages=history,
+            max_tokens=512,
+            temperature=0.7
+        )
+        # Получаем ответ ассистента
+        assistant_message = completion.choices[0].message
+        reply = assistant_message.content
+        # Добавляем ответ ассистента в историю
+        history.append({"role": "assistant", "content": reply})
+        return reply, history
     except Exception as e:
         error_mg=f'Error of API: {str(e)}'
         history.append({'role':'assistent', 'content':error_mg})
