@@ -1,104 +1,262 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Нейросетевой помощник</title>-->
+<!--    <style>-->
+<!--        body { font-family: Arial; margin:40; }-->
+<!--        .function-box { border: 1px solid #ccc; padding: 15px; margin-bottom:20px; border-radius: 8px; }-->
+<!--        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;}-->
+<!--        .error {color: red;}-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Нейросетевой помощник</h1>-->
+<!--    <p>Выберите функцию и введите данные</p>-->
+
+<!--    {% if error %}-->
+<!--    <div class="error" style="color:red; background: #ffe6e6; padding: 10px; border-radius: 5px;">-->
+<!--        {{ error }}-->
+<!--    </div>-->
+<!--    {% endif %}-->
+
+<!--    <form method="POST" enctype="multipart/form-data" id="mainForm">-->
+<!--        <div class="function-box">-->
+<!--            <h3>Текстовые функции</h3>-->
+<!--            <select name="action" id="actionSelect">-->
+<!--                <option value="sentiment">Анализ тональности</option>-->
+<!--                <option value="generate">Генерация текста</option>-->
+<!--                <option value="summarize">Пересказ текста</option>-->
+<!--                <option value="chat">Чат с ИИ-агентом</option>-->
+<!--            </select>-->
+<!--            <br><br>-->
+<!--            <textarea name="text" id="textInput" rows="4" cols="50" placeholder="Введите текст..."></textarea>-->
+<!--            <br>-->
+<!--            <input type="submit" value="Отправить">-->
+<!--        </div>-->
+<!--    </form>-->
+
+<!--    <script>-->
+<!--        // Получаем историю из сессии (передана из Flask)-->
+<!--        const initialHistory = {{ chat_history|tojson|safe }};-->
+
+<!--        function addMessage(role, text) {-->
+<!--            const container = document.getElementById('chat-messages');-->
+<!--            const div = document.createElement('div');-->
+<!--            div.className = 'message ' + role;-->
+<!--            div.style.margin = '5px 0';-->
+<!--            if (role === 'user') {-->
+<!--                div.style.textAlign = 'right';-->
+<!--                div.style.color = 'blue';-->
+<!--            } else {-->
+<!--                div.style.textAlign = 'left';-->
+<!--                div.style.color = 'green';-->
+<!--            }-->
+<!--            div.textContent = text;-->
+<!--            container.appendChild(div);-->
+<!--            container.scrollTop = container.scrollHeight;-->
+<!--        }-->
+
+<!--        // Загружаем историю при загрузке страницы (если есть)-->
+<!--        window.addEventListener('DOMContentLoaded', function() {-->
+<!--            if (initialHistory) {-->
+<!--                initialHistory.forEach(msg => {-->
+<!--                    if (msg.role !== 'system') {-->
+<!--                        addMessage(msg.role, msg.content);-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--            // Показываем чат, если выбрана опция-->
+<!--            const select = document.getElementById('actionSelect');-->
+<!--            toggleChat(select.value);-->
+<!--        });-->
+
+<!--        // Переключение видимости чата и текстового поля-->
+<!--        function toggleChat(action) {-->
+<!--            const textArea = document.getElementById('text-input-area');-->
+<!--            const chatContainer = document.getElementById('chat-container');-->
+<!--            const submitBtn = document.getElementById('submitBtn');-->
+<!--            if (action === 'chat') {-->
+<!--                textArea.style.display = 'none';-->
+<!--                chatContainer.style.display = 'block';-->
+<!--                submitBtn.style.display = 'none'; // скрываем кнопку отправки формы-->
+<!--            } else {-->
+<!--                textArea.style.display = 'block';-->
+<!--                chatContainer.style.display = 'none';-->
+<!--                submitBtn.style.display = 'inline-block';-->
+<!--            }-->
+<!--        }-->
+
+<!--        document.getElementById('actionSelect').addEventListener('change', function() {-->
+<!--            toggleChat(this.value);-->
+<!--        });-->
+
+<!--        // Отправка сообщения в чате-->
+<!--        document.getElementById('chat-send').addEventListener('click', function() {-->
+<!--            const input = document.getElementById('chat-input');-->
+<!--            const msg = input.value.trim();-->
+<!--            if (!msg) return;-->
+<!--            addMessage('user', msg);-->
+<!--            input.value = '';-->
+<!--            // Отправляем на сервер-->
+<!--            fetch('/chat', {-->
+<!--                method: 'POST',-->
+<!--                headers: {'Content-Type': 'application/json'},-->
+<!--                body: JSON.stringify({message: msg})-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                if (data.reply) {-->
+<!--                    addMessage('assistant', data.reply);-->
+<!--                } else if (data.error) {-->
+<!--                    addMessage('assistant', 'Ошибка: ' + data.error);-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                addMessage('assistant', 'Ошибка сети: ' + error);-->
+<!--            });-->
+<!--        });-->
+
+<!--        // Отправка по Enter-->
+<!--        document.getElementById('chat-input').addEventListener('keypress', function(e) {-->
+<!--            if (e.key === 'Enter') {-->
+<!--                document.getElementById('chat-send').click();-->
+<!--                e.preventDefault();-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    {% if result_text %}-->
+<!--        <div class="result">-->
+<!--            <h3>Результат</h3>-->
+<!--            <p>{{ result_text }}</p>-->
+<!--        </div>-->
+<!--    {% endif %}-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Нейросетевой помощник</title>
     <style>
-        body { font-family: Arial; margin:40; }
+        body { font-family: Arial; margin: 40px; }
         .function-box { border: 1px solid #ccc; padding: 15px; margin-bottom:20px; border-radius: 8px; }
-        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px;}
-        .error {color: red;}
+        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .error { color: red; background: #ffe6e6; padding: 10px; border-radius: 5px; }
+        #chat-messages { border:1px solid #ccc; height:300px; overflow-y:auto; padding:10px; background:#f9f9f9; margin-bottom:10px; }
+        .message { margin: 5px 0; }
+        .message.user { text-align: right; color: blue; }
+        .message.assistant { text-align: left; color: green; }
     </style>
 </head>
 <body>
-    <h1>Нейросетевой помощник</h1>
+    <h1>🧠 Нейросетевой помощник</h1>
     <p>Выберите функцию и введите данные</p>
 
     {% if error %}
-    <div class="error" style="color:red; background: #ffe6e6; padding: 10px; border-radius: 5px;">
-        {{ error }}
-    </div>
+    <div class="error">{{ error }}</div>
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data" id="mainForm">
         <div class="function-box">
-            <h3>Текстовые функции</h3>
+            <h3>Выберите функцию</h3>
             <select name="action" id="actionSelect">
                 <option value="sentiment">Анализ тональности</option>
                 <option value="generate">Генерация текста</option>
                 <option value="summarize">Пересказ текста</option>
-                <option value="chat">Чат с ИИ-агентом</option>
+                <option value="chat">💬 Чат с ИИ-агентом</option>
             </select>
             <br><br>
-            <textarea name="text" id="textInput" rows="4" cols="50" placeholder="Введите текст..."></textarea>
-            <br>
-            <input type="submit" value="Отправить">
+
+            <!-- Блок для текстовых функций (показывается по умолчанию) -->
+            <div id="text-input-area">
+                <textarea name="text" id="textInput" rows="4" cols="50" placeholder="Введите текст..."></textarea>
+                <br>
+                <input type="submit" id="submitBtn" value="Отправить">
+            </div>
+
+            <!-- Блок для чата (скрыт по умолчанию) -->
+            <div id="chat-container" style="display:none;">
+                <div id="chat-messages"></div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="chat-input" placeholder="Введите сообщение..." style="flex:1; padding:8px;">
+                    <button type="button" id="chat-send" style="padding:8px 16px;">Отправить</button>
+                </div>
+            </div>
         </div>
     </form>
 
+    {% if result_text %}
+        <div class="result">
+            <h3>Результат</h3>
+            <p>{{ result_text }}</p>
+        </div>
+    {% endif %}
+
     <script>
-        // Получаем историю из сессии (передана из Flask)
+        // Получаем историю из сессии
         const initialHistory = {{ chat_history|tojson|safe }};
+        const chatContainer = document.getElementById('chat-container');
+        const textArea = document.getElementById('text-input-area');
+        const submitBtn = document.getElementById('submitBtn');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        const actionSelect = document.getElementById('actionSelect');
 
         function addMessage(role, text) {
-            const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
             div.className = 'message ' + role;
-            div.style.margin = '5px 0';
-            if (role === 'user') {
-                div.style.textAlign = 'right';
-                div.style.color = 'blue';
-            } else {
-                div.style.textAlign = 'left';
-                div.style.color = 'green';
-            }
             div.textContent = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Загружаем историю при загрузке страницы (если есть)
+        function toggleChat(action) {
+            if (action === 'chat') {
+                textArea.style.display = 'none';
+                submitBtn.style.display = 'none';
+                chatContainer.style.display = 'block';
+                // Если история пуста, добавим приветственное сообщение
+                if (chatMessages.children.length === 0) {
+                    addMessage('assistant', 'Привет! Я ИИ-агент. Чем могу помочь?');
+                }
+            } else {
+                textArea.style.display = 'block';
+                submitBtn.style.display = 'inline-block';
+                chatContainer.style.display = 'none';
+            }
+        }
+
+        // Загружаем историю при загрузке
         window.addEventListener('DOMContentLoaded', function() {
-            if (initialHistory) {
+            if (initialHistory && initialHistory.length > 0) {
                 initialHistory.forEach(msg => {
                     if (msg.role !== 'system') {
                         addMessage(msg.role, msg.content);
                     }
                 });
             }
-            // Показываем чат, если выбрана опция
-            const select = document.getElementById('actionSelect');
-            toggleChat(select.value);
+            toggleChat(actionSelect.value);
         });
 
-        // Переключение видимости чата и текстового поля
-        function toggleChat(action) {
-            const textArea = document.getElementById('text-input-area');
-            const chatContainer = document.getElementById('chat-container');
-            const submitBtn = document.getElementById('submitBtn');
-            if (action === 'chat') {
-                textArea.style.display = 'none';
-                chatContainer.style.display = 'block';
-                submitBtn.style.display = 'none'; // скрываем кнопку отправки формы
-            } else {
-                textArea.style.display = 'block';
-                chatContainer.style.display = 'none';
-                submitBtn.style.display = 'inline-block';
-            }
-        }
-
-        document.getElementById('actionSelect').addEventListener('change', function() {
+        // Переключение при смене опции
+        actionSelect.addEventListener('change', function() {
             toggleChat(this.value);
         });
 
         // Отправка сообщения в чате
-        document.getElementById('chat-send').addEventListener('click', function() {
-            const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
+        function sendMessage() {
+            const msg = chatInput.value.trim();
             if (!msg) return;
             addMessage('user', msg);
-            input.value = '';
-            // Отправляем на сервер
+            chatInput.value = '';
+            chatInput.disabled = true;
+            chatSend.disabled = true;
+
             fetch('/chat', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -111,27 +269,23 @@
                 } else if (data.error) {
                     addMessage('assistant', 'Ошибка: ' + data.error);
                 }
+                chatInput.disabled = false;
+                chatSend.disabled = false;
             })
             .catch(error => {
                 addMessage('assistant', 'Ошибка сети: ' + error);
+                chatInput.disabled = false;
+                chatSend.disabled = false;
             });
-        });
+        }
 
-        // Отправка по Enter
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.getElementById('chat-send').click();
                 e.preventDefault();
+                sendMessage();
             }
         });
     </script>
-
-    {% if result_text %}
-        <div class="result">
-            <h3>Результат</h3>
-            <p>{{ result_text }}</p>
-        </div>
-    {% endif %}
-
 </body>
 </html>
