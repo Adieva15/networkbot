@@ -53,43 +53,6 @@ def index():
         elif action=="chat":
             pass
 
-        # # ---------- Функции с фото ----------
-        # elif action in ['colorize']:
-        #     if 'image' not in request.files:
-        #         error = "Файл не загружен"
-        #     else:
-        #         file = request.files['image']
-        #
-        #         if file.filename=='':
-        #             error= "Файл не выбран"
-        #         else:
-        #             img_bytes=file.read()
-        #             try:
-        #                 if action=='colorize':
-        #                     # 1 Вызываем функцию раскрашивания
-        #                     result_bytes = colorize_photo(img_bytes)
-        #
-        #                     # 2. Генерируем уникальное имя файла
-        #                     filename = f"{uuid.uuid4().hex}.jpg"
-        #                     filepath = os.path.join(RESULTS_FOLDER, filename)
-        #
-        #                     # 3. Сохраняем результат
-        #                     with open(filepath, 'wb') as f:
-        #                         f.write(result_bytes)
-        #
-        #                     if os.path.exists(filepath):
-        #                         print(f"✅ Файл сохранён: {filepath}, размер: {os.path.getsize(filepath)}")
-        #                     else:
-        #                         print("❌ Файл не создан!")
-        #
-        #                     # 4. Передаём URL для отображения
-        #                     result_image = f"/static/results/{filename}"
-        #                     print("Результат сохранен")
-        #                     # encoded = base64.b64encode(result_image=result_image,error=None)
-        #                     # return send_file(io.BytesIO(result_bytes), mimetype='image/jpeg')
-        #             except Exception as e:
-        #                 error = f"Ошибка обработки: {str(e)}"
-
     return render_template('index.html', result_text=result_text, error=error)
 
 @app.route('/chat', methods=['POST'])
@@ -98,7 +61,7 @@ def chat_endpoint():
     data = request.data.get_json()
     user_message=data.get('message', '').strip()
     if not user_message:
-        return jsonify({'error':'сообщение не молжет пустым'})
+        return jsonify({'error':'сообщение не может быть пустым'})
 
     history = session.get('chat_history',[])
     reply, new_history=chat_with_agent(history, user_message)
