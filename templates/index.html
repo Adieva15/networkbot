@@ -36,95 +36,95 @@
         </div>
     </form>
 
-<script>
-    // Получаем историю из сессии (передана из Flask)
-    const initialHistory = {{ chat_history|tojson|safe }};
+    <script>
+        // Получаем историю из сессии (передана из Flask)
+        const initialHistory = {{ chat_history|tojson|safe }};
 
-    function addMessage(role, text) {
-        const container = document.getElementById('chat-messages');
-        const div = document.createElement('div');
-        div.className = 'message ' + role;
-        div.style.margin = '5px 0';
-        if (role === 'user') {
-            div.style.textAlign = 'right';
-            div.style.color = 'blue';
-        } else {
-            div.style.textAlign = 'left';
-            div.style.color = 'green';
-        }
-        div.textContent = text;
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-    }
-
-    // Загружаем историю при загрузке страницы (если есть)
-    window.addEventListener('DOMContentLoaded', function() {
-        if (initialHistory) {
-            initialHistory.forEach(msg => {
-                if (msg.role !== 'system') {
-                    addMessage(msg.role, msg.content);
-                }
-            });
-        }
-        // Показываем чат, если выбрана опция
-        const select = document.getElementById('actionSelect');
-        toggleChat(select.value);
-    });
-
-    // Переключение видимости чата и текстового поля
-    function toggleChat(action) {
-        const textArea = document.getElementById('text-input-area');
-        const chatContainer = document.getElementById('chat-container');
-        const submitBtn = document.getElementById('submitBtn');
-        if (action === 'chat') {
-            textArea.style.display = 'none';
-            chatContainer.style.display = 'block';
-            submitBtn.style.display = 'none'; // скрываем кнопку отправки формы
-        } else {
-            textArea.style.display = 'block';
-            chatContainer.style.display = 'none';
-            submitBtn.style.display = 'inline-block';
-        }
-    }
-
-    document.getElementById('actionSelect').addEventListener('change', function() {
-        toggleChat(this.value);
-    });
-
-    // Отправка сообщения в чате
-    document.getElementById('chat-send').addEventListener('click', function() {
-        const input = document.getElementById('chat-input');
-        const msg = input.value.trim();
-        if (!msg) return;
-        addMessage('user', msg);
-        input.value = '';
-        // Отправляем на сервер
-        fetch('/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({message: msg})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.reply) {
-                addMessage('assistant', data.reply);
-            } else if (data.error) {
-                addMessage('assistant', 'Ошибка: ' + data.error);
+        function addMessage(role, text) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = 'message ' + role;
+            div.style.margin = '5px 0';
+            if (role === 'user') {
+                div.style.textAlign = 'right';
+                div.style.color = 'blue';
+            } else {
+                div.style.textAlign = 'left';
+                div.style.color = 'green';
             }
-        })
-        .catch(error => {
-            addMessage('assistant', 'Ошибка сети: ' + error);
-        });
-    });
-
-    // Отправка по Enter
-    document.getElementById('chat-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            document.getElementById('chat-send').click();
-            e.preventDefault();
+            div.textContent = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
-    });
-</script>
+
+        // Загружаем историю при загрузке страницы (если есть)
+        window.addEventListener('DOMContentLoaded', function() {
+            if (initialHistory) {
+                initialHistory.forEach(msg => {
+                    if (msg.role !== 'system') {
+                        addMessage(msg.role, msg.content);
+                    }
+                });
+            }
+            // Показываем чат, если выбрана опция
+            const select = document.getElementById('actionSelect');
+            toggleChat(select.value);
+        });
+
+        // Переключение видимости чата и текстового поля
+        function toggleChat(action) {
+            const textArea = document.getElementById('text-input-area');
+            const chatContainer = document.getElementById('chat-container');
+            const submitBtn = document.getElementById('submitBtn');
+            if (action === 'chat') {
+                textArea.style.display = 'none';
+                chatContainer.style.display = 'block';
+                submitBtn.style.display = 'none'; // скрываем кнопку отправки формы
+            } else {
+                textArea.style.display = 'block';
+                chatContainer.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            }
+        }
+
+        document.getElementById('actionSelect').addEventListener('change', function() {
+            toggleChat(this.value);
+        });
+
+        // Отправка сообщения в чате
+        document.getElementById('chat-send').addEventListener('click', function() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addMessage('user', msg);
+            input.value = '';
+            // Отправляем на сервер
+            fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: msg})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.reply) {
+                    addMessage('assistant', data.reply);
+                } else if (data.error) {
+                    addMessage('assistant', 'Ошибка: ' + data.error);
+                }
+            })
+            .catch(error => {
+                addMessage('assistant', 'Ошибка сети: ' + error);
+            });
+        });
+
+        // Отправка по Enter
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('chat-send').click();
+                e.preventDefault();
+            }
+        });
+    </script>
 
     {% if result_text %}
         <div class="result">
@@ -133,13 +133,5 @@
         </div>
     {% endif %}
 
-<!--    {% if result_image %}-->
-<!--        <div class="result">-->
-<!--            <h3>Результат</h3>-->
-<!--            <img src="{{ result_image }}" style="max-width: 500px">-->
-<!--            <br>-->
-<!--            <a href="{{ result_image }}" download="result.jpg" class="download-btn">Download</a>-->
-<!--        </div>-->
-<!--    {% endif %}-->
 </body>
 </html>
