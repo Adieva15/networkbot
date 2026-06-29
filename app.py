@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, session, send_file, jsonify
 import io
 import requests
 import base64
@@ -8,13 +8,11 @@ from functions import (
     sentiment_analysis,
     generate_text,
     summarize_text,
-    # colorize_photo
+    chat_with_agent
 )
 
 
-
 app = Flask(__name__)
-
 
 UPLOAD_FOLDER = 'uploads'
 RESULTS_FOLDER = 'static/results'
@@ -51,6 +49,9 @@ def index():
                 result_text=summarize_text(text)
             else:
                 error = "Введите текст для пересказа"
+
+        elif action=="chat":
+            pass
 
         # # ---------- Функции с фото ----------
         # elif action in ['colorize']:
@@ -90,6 +91,19 @@ def index():
         #                 error = f"Ошибка обработки: {str(e)}"
 
     return render_template('index.html', result_text=result_text, error=error)
+
+@app.route('/chat', methods=['POST'])
+def chat_endpoint():
+    """AJAX - эндпоинn для общения с ИИ - агентом."""
+    data = request.data.get_json()
+    user_message=data.get('message', '').strip()
+    if not user_message:
+        return jsonify({'error':'сообщение не молжет пустым'})
+
+    history = session.get('chat_history',[])
+    reply, new_history=chat_with_agent(history, user_message)
+    session['chat_history']=new_history
+    return jsonify({'reply':reply})
 
 if __name__=='__main__':
 

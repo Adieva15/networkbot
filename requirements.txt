@@ -6,4 +6,6 @@ opencv-python
 gunicorn #синх
 pillow
 requests
+openai
+numpy
 
