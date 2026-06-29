@@ -1,4 +1,4 @@
-from ..config import model_gt
+from config import model_gt
 import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
