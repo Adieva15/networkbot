@@ -1,7 +1,7 @@
 flask
 torch
 transformers
-python-dotenv
+
 opencv-python
 gunicorn #синх
 pillow

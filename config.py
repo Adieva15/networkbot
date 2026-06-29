@@ -1,9 +1,9 @@
-from dotenv import load_dotenv
+
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 import os
 os.environ['HF_ENDPOINT']='https://hf-mirror.com'
-load_dotenv()
+
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 HF_TOKEN = os.getenv("HF_TOKEN")

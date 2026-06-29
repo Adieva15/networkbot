@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
-from dotenv import load_dotenv
-load_dotenv()
+
+
 HF_TOKEN=os.getenv("HF_TOKEN","")
 print(f"HF_TOKEN exists: {bool(HF_TOKEN)}")
 if not HF_TOKEN:
