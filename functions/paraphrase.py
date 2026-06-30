@@ -8,8 +8,8 @@ def get_paraphraser():
     global _model, _tokenizer
     if _model is None:
         model_name = "cointegrated/rut5-base-paraphraser"
-        _tokenizer = AutoTokenizer.from_pretrained(model_name)
-        _model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        _tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True)
+        _model = AutoModelForSeq2SeqLM.from_pretrained(model_name, force_download=True)
     return _model, _tokenizer
 
 def paraphrase_text(text: str) -> str:
