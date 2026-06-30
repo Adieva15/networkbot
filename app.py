@@ -77,15 +77,21 @@ def index():
 @app.route('/chat', methods=['POST'])
 def chat_endpoint():
     """AJAX - эндпоинn для общения с ИИ - агентом."""
-    data = request.get_json()
-    user_message=data.get('message', '').strip()
-    if not user_message:
-        return jsonify({'error':'сообщение не может быть пустым'}), 400
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Неверный запрос'}), 400
+        user_message=data.get('message', '').strip()
+        if not user_message:
+            return jsonify({'error':'сообщение не может быть пустым'}), 400
 
-    history = session.get('chat_history',[])
-    reply, new_history=chat_with_agent(history, user_message)
-    session['chat_history']=new_history
-    return jsonify({'reply':reply})
+        history = session.get('chat_history',[])
+        reply, new_history=chat_with_agent(history, user_message)
+        session['chat_history']=new_history
+        return jsonify({'reply':reply})
+    except Exception as e:
+        print(f"❌ Ошибка в /chat: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__=='__main__':
 
