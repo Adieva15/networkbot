@@ -12,7 +12,7 @@ from functions import (
     text_stats,
     paraphrase_text
 )
-
+import traceback
 
 app = Flask(__name__)
 
@@ -91,6 +91,7 @@ def chat_endpoint():
         return jsonify({'reply':reply})
     except Exception as e:
         print(f"❌ Ошибка в /chat: {str(e)}")
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 if __name__=='__main__':
