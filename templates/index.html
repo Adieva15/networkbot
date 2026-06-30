@@ -244,11 +244,53 @@
             .chat-input-row input { flex: 1 1 100%; }
             .chat-input-row button { width: 100%; }
         }
+
+        body.dark {
+            background: #1e1e1e;
+            color: #eee;
+        }
+        body.dark .container {
+            background: #2a2a2a;
+            border-color: #666;
+            box-shadow: 12px 12px 0 #444;
+        }
+        body.dark .function-box {
+            background: #333;
+            border-color: #666;
+        }
+        body.dark select, body.dark textarea, body.dark input {
+            background: #222;
+            border-color: #666;
+            color: #eee;
+        }
+        body.dark .result {
+            background: #333;
+            border-color: #666;
+            border-left-color: #e67e22;
+        }
+        body.dark .error {
+            background: #442222;
+            border-color: #aa4444;
+            color: #ff8888;
+        }
+        body.dark .btn-primary, body.dark .btn-send, body.dark .chat-input-row button {
+            background: #444;
+            border-color: #888;
+            color: #eee;
+        }
+        body.dark .btn-primary:hover, body.dark .btn-send:hover {
+            background: #e67e22;
+            border-color: #e67e22;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <h1>НейроЛингвист</h1>
+    <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
+        <button id="themeToggle" style="background: none; border: 2px solid #1e1e1e; padding: 6px 12px; font-family: inherit; cursor: pointer;">Тёмная тема</button>
+    </div>
     <div class="subhead">Текстовые функции + чат с ИИ</div>
 
     {% if error %}
@@ -262,9 +304,12 @@
                 <option value="sentiment">Тональность</option>
                 <option value="generate">Генерация</option>
                 <option value="summarize">Пересказ</option>
-                <option value="paraphrase">Перефразирование</option>
                 <option value="chat">Чат</option>
-                <option value="stats">Статистика текста (не ии)</option>
+                <option value="stats">Статистика текста</option>
+                <option value="shuffle">Перемешать слова</option>
+                <option value="leetspeak">Leetspeak</option>
+                <option value="compare">Сравнить два текста</option>
+                <option value="transliterate">Транслитерация</option>
 
             </select>
             <br>
@@ -272,6 +317,9 @@
             <div id="text-input-area">
                 <textarea name="text" id="textInput" rows="4" placeholder="Введите текст..."></textarea>
                 <br>
+                <div id="compare-area" style="display: none; margin-top: 10px;">
+                    <textarea name="text2" id="textInput2" rows="3" placeholder="Второй текст для сравнения..."></textarea>
+                </div>
                 <input type="submit" id="submitBtn" class="btn-primary" value="→ Отправить">
             </div>
 
@@ -302,6 +350,8 @@
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const actionSelect = document.getElementById('actionSelect');
+    const compareArea = document.getElementById('compare-area');
+
 
     function addMessage(role, text) {
         const div = document.createElement('div');
@@ -336,6 +386,11 @@
     });
 
     actionSelect.addEventListener('change', function() {
+        if (this.value === 'compare') {
+            compareArea.style.display = 'block';
+        } else {
+            compareArea.style.display = 'none';
+        }
         toggleChat(this.value);
     });
 
@@ -372,6 +427,10 @@
             e.preventDefault();
             sendMessage();
         }
+    });
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark');
+        this.textContent = document.body.classList.contains('dark') ? '☀️ Светлая тема' : '🌙 Тёмная тема';
     });
 </script>
 </body>

@@ -42,7 +42,7 @@ def chat_with_agent(history, user_message):
         return reply, history
     except Exception as e:
         error_mg=f'Error of API: {str(e)}'
-        history.append({'role':'assistent', 'content':error_mg})
+        history.append({'role':'assistant', 'content':error_mg})
         return error_mg, history
 
 

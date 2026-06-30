@@ -10,7 +10,7 @@ from functions import (
     summarize_text,
     chat_with_agent,
     text_stats,
-    paraphrase_text
+    shuffle_words, to_leetspeak, comare_texts, transliterate_ru_to_en
 )
 import traceback
 
@@ -62,17 +62,40 @@ def index():
             else:
                 error="Введите текст"
 
-        elif action =="paraphrase":
+        elif action =="shuffle":
             text=request.form.get('text','')
             if text:
-                result_text = paraphrase_text(text)
+                result_text = shuffle_words(text)
             else:
                 error="Введите текст"
+
+        elif action =="leetspeak":
+            text=request.form.get('text','')
+            if text:
+                result_text = to_leetspeak(text)
+            else:
+                error="Введите текст"
+
+        elif action =="compare":
+            text=request.form.get('text','')
+            if text:
+                result_text = comare_texts(text)
+            else:
+                error="Введите текст"
+
+        elif action =="transliterate":
+            text=request.form.get('text','')
+            if text:
+                result_text = transliterate_ru_to_en(text)
+            else:
+                error="Введите текст"
+
 
     return render_template('index.html',
                            result_text=result_text,
                            error=error,
                            chat_history=chat_history)
+
 
 @app.route('/chat', methods=['POST'])
 def chat_endpoint():
