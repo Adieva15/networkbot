@@ -10,7 +10,7 @@ from functions import (
     summarize_text,
     chat_with_agent,
     text_stats,
-    shuffle_words, to_leetspeak, comare_texts, transliterate_ru_to_en
+    shuffle_words, to_leetspeak, compare_texts, transliterate_ru_to_en
 )
 import traceback
 
@@ -79,7 +79,7 @@ def index():
         elif action =="compare":
             text=request.form.get('text','')
             if text:
-                result_text = comare_texts(text)
+                result_text = compare_texts(text)
             else:
                 error="Введите текст"
 
@@ -113,7 +113,7 @@ def chat_endpoint():
         session['chat_history']=new_history
         return jsonify({'reply':reply})
     except Exception as e:
-        print(f"❌ Ошибка в /chat: {str(e)}")
+        print(f"Ошибка в /chat: {str(e)}")
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
