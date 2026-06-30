@@ -8,4 +8,5 @@ pillow
 requests
 openai
 numpy
-
+random
+re

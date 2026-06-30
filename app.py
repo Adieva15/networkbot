@@ -78,10 +78,11 @@ def index():
 
         elif action =="compare":
             text=request.form.get('text','')
-            if text:
-                result_text = compare_texts(text)
+            text2 = request.form.get('text2', '')
+            if text and text2:
+                result_text = compare_texts(text, text2)
             else:
-                error="Введите текст"
+                error="Введите оба текста"
 
         elif action =="transliterate":
             text=request.form.get('text','')
