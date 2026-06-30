@@ -1,5 +1,8 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
+import os
+
+HF_TOKEN=os.getenv("HF_TOKEN")
 
 _model = None
 _tokenizer = None
@@ -8,8 +11,15 @@ def get_paraphraser():
     global _model, _tokenizer
     if _model is None:
         model_name = "cointegrated/rut5-base-paraphraser"
-        _tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True)
-        _model = AutoModelForSeq2SeqLM.from_pretrained(model_name, force_download=True)
+        try:
+            # Загружаем с токеном, без force_download
+            _tokenizer = AutoTokenizer.from_pretrained(model_name, token=HF_TOKEN)
+            _model = AutoModelForSeq2SeqLM.from_pretrained(model_name, token=HF_TOKEN)
+        except Exception as e:
+            # Если модель повреждена, пробуем принудительно перезагрузить
+            print(f"Ошибка загрузки модели: {e}, пробуем перезагрузить с force_download=True")
+            _tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True, token=HF_TOKEN)
+            _model = AutoModelForSeq2SeqLM.from_pretrained(model_name, force_download=True, token=HF_TOKEN)
     return _model, _tokenizer
 
 def paraphrase_text(text: str) -> str:
