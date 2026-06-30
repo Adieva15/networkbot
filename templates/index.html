@@ -245,42 +245,75 @@
             .chat-input-row button { width: 100%; }
         }
 
+                /* ----- Тёмная тема (мягкая) ----- */
         body.dark {
-            background: #1e1e1e;
-            color: #eee;
+            background: #1e1e2f;   /* тёмно-синий, не чёрный */
+            color: #d4d4e0;        /* светло-серый с оттенком */
         }
         body.dark .container {
-            background: #2a2a2a;
-            border-color: #666;
-            box-shadow: 12px 12px 0 #444;
+            background: #2a2a3e;
+            border-color: #4a4a6a;
+            box-shadow: 12px 12px 0 #151525;
         }
         body.dark .function-box {
-            background: #333;
-            border-color: #666;
+            background: #32324a;
+            border-color: #4a4a6a;
         }
-        body.dark select, body.dark textarea, body.dark input {
-            background: #222;
-            border-color: #666;
-            color: #eee;
+        body.dark select, body.dark textarea, body.dark input[type="text"] {
+            background: #25253a;
+            border-color: #4a4a6a;
+            color: #e0e0ec;
+        }
+        body.dark select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23d4d4e0' d='M7 10L1 4h12z'/%3E%3C/svg%3E");
+        }
+        body.dark .btn-primary, body.dark .btn-send, body.dark .chat-input-row button {
+            background: #3a3a5a;
+            border-color: #5a5a8a;
+            color: #e0e0ec;
+        }
+        body.dark .btn-primary:hover, body.dark .btn-send:hover, body.dark .chat-input-row button:hover {
+            background: #e67e22;
+            border-color: #e67e22;
+            color: #1e1e2f;
         }
         body.dark .result {
-            background: #333;
-            border-color: #666;
+            background: #32324a;
+            border-color: #4a4a6a;
             border-left-color: #e67e22;
+        }
+        body.dark .result h3 {
+            color: #a0a0c0;
+        }
+        body.dark .result p {
+            color: #d4d4e0;
         }
         body.dark .error {
             background: #442222;
             border-color: #aa4444;
-            color: #ff8888;
+            color: #ff9999;
         }
-        body.dark .btn-primary, body.dark .btn-send, body.dark .chat-input-row button {
-            background: #444;
-            border-color: #888;
-            color: #eee;
+        body.dark #chat-messages {
+            background: #25253a;
+            border-color: #4a4a6a;
         }
-        body.dark .btn-primary:hover, body.dark .btn-send:hover {
-            background: #e67e22;
-            border-color: #e67e22;
+        body.dark #chat-messages .message.assistant {
+            background: #32324a;
+            color: #d4d4e0;
+            border-color: #4a4a6a;
+        }
+        body.dark #chat-messages .message.user {
+            background: #4a4a6a;
+            color: #ffffff;
+            border-color: #5a5a8a;
+        }
+        body.dark .subhead {
+            color: #a0a0c0;
+            border-left-color: #e67e22;
+        }
+        body.dark h1 {
+            color: #e0e0ec;
+            border-bottom-color: #4a4a6a;
         }
 
     </style>
