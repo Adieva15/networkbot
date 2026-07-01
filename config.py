@@ -1,4 +1,3 @@
-
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 import os
@@ -15,9 +14,6 @@ model_gt='gpt2'
 
 SUMMARIZE_API=''
 model_sum='IlyaGusev/rut5_base_sum_gazeta'
-# model_sum='t5-small'
-
-
 
 EMOTION_API = "https://api-inference.huggingface.co/models/harsh3474/face-emotion-recognition"
 
